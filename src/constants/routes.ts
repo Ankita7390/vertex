@@ -1,0 +1,32 @@
+export const routes = {
+  home: "/",
+  login: "/login",
+  register: "/register",
+  explore: "/explore",
+  profile: "/profile/:id",
+  profileEdit: "/profile/edit",
+  messages: "/messages",
+  messageThread: "/messages/:id",
+  network: "/network",
+  notifications: "/notifications",
+  bookmarks: "/bookmarks",
+  search: "/search",
+  settings: "/settings",
+  accountSettings: "/settings/account",
+  privacySettings: "/settings/privacy",
+  securitySettings: "/settings/security",
+  themeSettings: "/settings/theme",
+  preferenceSettings: "/settings/preferences",
+  post: "/post/:id",
+  createPost: "/create-post",
+  trending: "/trending",
+  saved: "/saved",
+  help: "/help",
+  notFound: "/404",
+} as const;
+
+export const routeTo = {
+  profile: (id: string) => `/profile/${id}`,
+  messageThread: (id: string) => `/messages/${id}`,
+  post: (id: string) => `/post/${id}`,
+};
