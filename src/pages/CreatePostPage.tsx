@@ -1,10 +1,10 @@
 import { CalendarClock, Hash, ImagePlus, MapPin, Send, SmilePlus, UsersRound } from "lucide-react";
 
 import { Avatar, Button, Card, Input, Textarea } from "@/components/ui";
-import { users } from "@/data";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 export default function CreatePostPage() {
-  const user = users[0];
+  const user = useCurrentUser();
 
   return (
     <div className="mx-auto w-full max-w-3xl space-y-5">

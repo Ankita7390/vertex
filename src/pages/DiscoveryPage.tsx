@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Avatar, Badge, Button, Card, Input } from "@/components/ui";
 import { hashtags, posts, users } from "@/data";
 import { routeTo } from "@/constants/routes";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { compactNumber } from "@/utils/format";
 
 const pageCopy: Record<string, { title: string; description: string; icon: typeof Compass }> = {
@@ -52,6 +53,7 @@ export default function DiscoveryPage() {
   const isNetwork = pathname === "/network";
   const isSaved = pathname === "/bookmarks" || pathname === "/saved";
   const showIntroCard = pathname !== "/network" && pathname !== "/explore";
+  const currentUser = useCurrentUser();
 
   return (
     <div className="mx-auto w-full max-w-6xl space-y-5">
@@ -81,9 +83,9 @@ export default function DiscoveryPage() {
 
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_19rem]">
         <div className="space-y-5">
-          {isNetwork ? <PeopleGrid /> : null}
+          {isNetwork ? <PeopleGrid currentUserName={currentUser.name} /> : null}
           {isSaved ? <SavedCollections /> : null}
-          {!isNetwork && !isSaved ? <TrendingPosts /> : null}
+          {!isNetwork && !isSaved ? <TrendingPosts currentUserName={currentUser.name} /> : null}
         </div>
         <Card className="h-fit p-5">
           <h2 className="flex items-center gap-2 font-black text-zinc-950 dark:text-white">
@@ -106,17 +108,18 @@ export default function DiscoveryPage() {
   );
 }
 
-function TrendingPosts() {
+function TrendingPosts({ currentUserName }: { currentUserName: string }) {
   return (
     <div className="grid gap-4">
       {posts.slice(0, 4).map((post) => {
         const author = users.find((user) => user.id === post.authorId) ?? users[0];
+        const authorName = post.authorId === "u-priya" ? currentUserName : author.name;
         return (
           <Card className="p-5 transition hover:-translate-y-0.5 hover:shadow-soft" key={post.id}>
             <div className="flex gap-3">
               <Avatar alt={author.name} src={author.avatarUrl} />
               <div className="min-w-0 flex-1">
-                <p className="font-black text-zinc-950 dark:text-white">{author.name}</p>
+                <p className="font-black text-zinc-950 dark:text-white">{authorName}</p>
                 <p className="mt-2 line-clamp-3 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
                   {post.content}
                 </p>
@@ -133,7 +136,7 @@ function TrendingPosts() {
   );
 }
 
-function PeopleGrid() {
+function PeopleGrid({ currentUserName }: { currentUserName: string }) {
   return (
     <div className="grid gap-4 sm:grid-cols-2 2xl:grid-cols-3">
       {users.map((user) => (
@@ -143,7 +146,7 @@ function PeopleGrid() {
             className="mt-4 block font-black text-zinc-950 hover:text-primary-700 dark:text-white"
             to={routeTo.profile(user.id)}
           >
-            {user.name}
+            {user.id === "u-priya" ? currentUserName : user.name}
           </Link>
           <p className="mt-2 min-h-20 text-sm leading-6 text-zinc-500 dark:text-zinc-400">
             {user.headline}

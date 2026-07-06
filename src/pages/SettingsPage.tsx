@@ -13,6 +13,7 @@ import { NavLink, useLocation } from "react-router-dom";
 
 import { Button, Card, Input } from "@/components/ui";
 import { routes } from "@/constants/routes";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { cn } from "@/lib/cn";
 
 const sections = [
@@ -52,6 +53,7 @@ const copy: Record<string, { title: string; description: string }> = {
 
 export default function SettingsPage() {
   const { pathname } = useLocation();
+  const user = useCurrentUser();
   const meta = copy[pathname] ?? copy[routes.settings];
 
   return (
@@ -93,8 +95,8 @@ export default function SettingsPage() {
         </Card>
         <Card className="p-6">
           <div className="grid gap-4 sm:grid-cols-2">
-            <Input defaultValue="Priya Kapoor" aria-label="Display name" />
-            <Input defaultValue="priya@vertex.local" aria-label="Email" />
+            <Input defaultValue={user.name} aria-label="Display name" />
+            <Input defaultValue={`${user.handle}@vertex.local`} aria-label="Email" />
             <SettingToggle icon={<Bell size={18} />} label="Smart notifications" checked />
             <SettingToggle icon={<Lock size={18} />} label="Private activity by default" />
             <SettingToggle icon={<Globe size={18} />} label="Show profile to search engines" checked />

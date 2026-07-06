@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 
 import { Avatar } from "@/components/ui/avatars/Avatar";
 import { routeTo, routes } from "@/constants/routes";
-import { users } from "@/data";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 export function ProfileMenu() {
-  const user = users[0];
+  const user = useCurrentUser();
 
   return (
     <div className="group relative">

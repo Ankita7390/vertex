@@ -5,10 +5,13 @@ import { ProfileDetails } from "@/components/profile/ProfileDetails";
 import { ProfileHero } from "@/components/profile/ProfileHero";
 import { EmptyState } from "@/components/ui";
 import { posts, users } from "@/data";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 export default function ProfilePage() {
   const { id } = useParams();
-  const user = users.find((item) => item.id === id) ?? users[0];
+  const currentUser = useCurrentUser();
+  const user =
+    id === "u-priya" ? currentUser : users.find((item) => item.id === id) ?? currentUser;
   const userPosts = posts.filter((post) => post.authorId === user.id);
 
   if (!user) {

@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 
 import { Avatar, Button, Card, Textarea } from "@/components/ui";
-import { users } from "@/data";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 const composerTools = [
   { label: "Media", icon: ImagePlus },
@@ -19,7 +19,7 @@ const composerTools = [
 ];
 
 export function FeedComposer() {
-  const user = users[0];
+  const user = useCurrentUser();
 
   return (
     <motion.div

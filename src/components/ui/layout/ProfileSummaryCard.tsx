@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 
 import { Avatar, Badge, Card } from "@/components/ui";
 import { routeTo } from "@/constants/routes";
-import { users } from "@/data";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 export function ProfileSummaryCard() {
-  const user = users[0];
+  const user = useCurrentUser();
 
   return (
     <Card className="overflow-hidden">

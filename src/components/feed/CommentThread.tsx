@@ -2,6 +2,7 @@ import { Heart, MessageCircle } from "lucide-react";
 
 import { Avatar } from "@/components/ui";
 import { users } from "@/data";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { relativeTime } from "@/utils/format";
 import type { Comment } from "@/types/social";
 
@@ -24,7 +25,11 @@ export function CommentThread({ comments }: CommentThreadProps) {
 }
 
 function CommentItem({ comment }: { comment: Comment }) {
-  const author = users.find((user) => user.id === comment.authorId) ?? users[0];
+  const currentUser = useCurrentUser();
+  const author =
+    comment.authorId === "u-priya"
+      ? currentUser
+      : users.find((user) => user.id === comment.authorId) ?? currentUser;
 
   return (
     <div className="flex gap-3">

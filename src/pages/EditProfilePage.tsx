@@ -1,10 +1,10 @@
 import { Camera, Save } from "lucide-react";
 
 import { Avatar, Button, Card, Input, Textarea } from "@/components/ui";
-import { users } from "@/data";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 export default function EditProfilePage() {
-  const user = users[0];
+  const user = useCurrentUser();
 
   return (
     <div className="mx-auto w-full max-w-3xl space-y-5">
@@ -17,18 +17,20 @@ export default function EditProfilePage() {
         </p>
       </div>
       <Card className="overflow-hidden">
-        <div className="relative h-44 bg-zinc-200 dark:bg-zinc-900">
-          <img alt="" className="size-full object-cover" src={user.coverUrl} />
-          <button className="absolute right-4 top-4 inline-flex items-center gap-2 rounded-xl bg-white/90 px-3 py-2 text-sm font-bold text-zinc-900 shadow-sm backdrop-blur">
+        <div className="relative z-0 h-44 bg-zinc-200 dark:bg-zinc-900">
+          <img alt="" className="relative z-0 size-full object-cover" src={user.coverUrl} />
+          <button className="absolute right-4 top-4 z-10 inline-flex items-center gap-2 rounded-xl bg-white/90 px-3 py-2 text-sm font-bold text-zinc-900 shadow-sm backdrop-blur">
             <Camera size={16} /> Cover
           </button>
         </div>
-        <div className="px-5 pb-6">
-          <Avatar
-            alt={user.name}
-            className="-mt-12 size-24 ring-4 ring-white dark:ring-zinc-950"
-            src={user.avatarUrl}
-          />
+        <div className="relative z-20 px-5 pb-6">
+          <div className="relative z-30 -mt-12 w-fit">
+            <Avatar
+              alt={user.name}
+              className="size-24 ring-4 ring-white dark:ring-zinc-950"
+              src={user.avatarUrl}
+            />
+          </div>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             <Input defaultValue={user.name} aria-label="Name" />
             <Input defaultValue={user.handle} aria-label="Handle" />

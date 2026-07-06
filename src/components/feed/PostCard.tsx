@@ -18,6 +18,7 @@ import { PollBlock } from "@/components/feed/PollBlock";
 import { PostMedia } from "@/components/feed/PostMedia";
 import { Avatar, Button, Card, Input } from "@/components/ui";
 import { comments, users } from "@/data";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { cn } from "@/lib/cn";
 import type { Post } from "@/types/social";
 import { compactNumber, relativeTime } from "@/utils/format";
@@ -31,7 +32,11 @@ export function PostCard({ post, index }: PostCardProps) {
   const [liked, setLiked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
   const [showComments, setShowComments] = useState(index < 2);
-  const author = users.find((user) => user.id === post.authorId) ?? users[0];
+  const currentUser = useCurrentUser();
+  const author =
+    post.authorId === "u-priya"
+      ? currentUser
+      : users.find((user) => user.id === post.authorId) ?? currentUser;
   const postComments = useMemo(
     () => comments.filter((comment) => comment.postId === post.id),
     [post.id],
@@ -127,7 +132,7 @@ export function PostCard({ post, index }: PostCardProps) {
               <>
                 <CommentThread comments={postComments} />
                 <div className="mt-4 flex items-center gap-3">
-                  <Avatar alt={users[0].name} className="size-9" src={users[0].avatarUrl} />
+                  <Avatar alt={currentUser.name} className="size-9" src={currentUser.avatarUrl} />
                   <div className="relative flex-1">
                     <Input className="pr-20" placeholder="Add a thoughtful reply" />
                     <div className="absolute right-2 top-1/2 flex -translate-y-1/2 gap-1">
